@@ -11,6 +11,7 @@ import Stats from '@/components/Stats';
 import Skills from '@/components/Skills';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import AIAgent from '@/components/AIAgent';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,6 +24,13 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleTerminalNavigate = (section: string) => {
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
       <Navigation isScrolled={isScrolled} />
@@ -34,6 +42,7 @@ export default function Home() {
       <About />
       <Contact />
       <Footer />
+      <AIAgent onNavigate={handleTerminalNavigate} />
     </main>
   );
 }
