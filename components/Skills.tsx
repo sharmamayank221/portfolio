@@ -35,8 +35,12 @@ const skillCategories = [
     skills: ['Docker', 'AWS', 'Kubernetes'],
   },
   {
-    title: 'AI/ML',
-    skills: ['Pandas', 'NumPy', 'scikit-learn', 'LLMs', 'Machine Learning'],
+    title: 'AI/ML & Tools',
+    skills: ['Pandas', 'NumPy', 'scikit-learn', 'LLMs', 'Machine Learning', 'Cursor', 'GitHub Copilot'],
+  },
+  {
+    title: 'Developer Tools',
+    skills: ['VS Code', 'Git', 'Postman', 'Chrome DevTools', 'Jira', 'Confluence'],
   },
 ];
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Hero() {
   const containerVariants = {
@@ -61,42 +61,121 @@ export default function Hero() {
       </div>
 
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center"
+        className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants}>
-          <motion.p
-            className="text-[#ffd700] text-sm sm:text-base font-medium mb-4 tracking-wider uppercase"
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 lg:gap-16">
+          {/* Profile Photo - Left */}
+          <motion.div
+            variants={itemVariants}
+            className="flex-shrink-0"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#ffd700]/20 to-[#ffed4e]/20 rounded-full blur-2xl animate-pulse" />
+              <img
+                src="/assets/profile-photo.png"
+                alt="Mayanka Sharma"
+                className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full object-cover border-4 border-[#ffd700]/30 shadow-2xl"
+                onError={(e) => {
+                  // Hide image if it fails to load
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+          </motion.div>
+
+          {/* Text Content - Right */}
+          <div className="flex-1 text-center md:text-left">
+            <motion.div variants={itemVariants}>
+              <motion.p
+                className="text-[#ffd700] text-sm sm:text-base font-medium mb-4 md:mb-6 tracking-wider uppercase"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                Software Engineer
+              </motion.p>
+            </motion.div>
+
+            <motion.h1
+              variants={itemVariants}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight"
+            >
+          <motion.span 
+            className="block"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+          >
+            Mayanka
+          </motion.span>
+          <motion.span 
+            className="block text-[#ffd700] bg-clip-text bg-gradient-to-r from-[#ffd700] via-[#ffed4e] to-[#ffd700] bg-[length:200%_auto]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: 1, 
+              y: 0,
+              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+            }}
+            transition={{ 
+              delay: 0.9, 
+              duration: 0.6,
+              backgroundPosition: {
+                duration: 3,
+                repeat: Infinity,
+                ease: 'linear'
+              }
+            }}
+          >
+            Sharma
+          </motion.span>
+            </motion.h1>
+
+            <motion.div
+              variants={itemVariants}
+              className="text-lg sm:text-xl md:text-2xl text-[#b0b0b0] max-w-3xl mb-12 leading-relaxed"
+            >
+          <motion.p 
+            className="mb-4 text-xl sm:text-2xl md:text-3xl font-medium"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.6 }}
+          >
+            Crafting digital experiences that{' '}
+            <motion.span 
+              className="text-[#ffd700] relative inline-block"
+              whileHover={{ scale: 1.05 }}
+            >
+              users love
+            </motion.span>
+            {' '}and{' '}
+            <motion.span 
+              className="text-[#ffd700] relative inline-block"
+              whileHover={{ scale: 1.05 }}
+            >
+              businesses trust
+            </motion.span>
+            .
+          </motion.p>
+          <motion.p 
+            className="text-base sm:text-lg md:text-xl text-[#808080] max-w-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 1.3, duration: 0.6 }}
           >
-            Software Engineer
+            Full-stack engineer specializing in modern web technologies, focused on performance, accessibility, and developer experience.
           </motion.p>
-        </motion.div>
+            </motion.div>
 
-        <motion.h1
-          variants={itemVariants}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
-        >
-          <span className="block">Mayanka</span>
-          <span className="block text-[#ffd700]">Sharma</span>
-        </motion.h1>
-
-        <motion.p
-          variants={itemVariants}
-          className="text-lg sm:text-xl md:text-2xl text-[#b0b0b0] max-w-3xl mx-auto mb-12 leading-relaxed"
-        >
-          Building innovative web applications with React, Next.js, and modern technologies.
-          Passionate about creating seamless user experiences and scalable solutions.
-        </motion.p>
-
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-wrap items-center justify-center gap-6 mb-16"
-        >
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center justify-center md:justify-start gap-6 mb-16"
+            >
           <motion.a
             href="https://github.com/sharmamayank221"
             target="_blank"
@@ -128,26 +207,9 @@ export default function Hero() {
             <Mail size={20} />
             <span>Get in Touch</span>
           </motion.a>
-        </motion.div>
-
-        <motion.div
-          variants={itemVariants}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.a
-            href="#about"
-            className="flex flex-col items-center gap-2 text-[#b0b0b0] hover:text-[#ffd700] transition-colors"
-            animate={{ y: [0, 10, 0] }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            <span className="text-sm">Scroll</span>
-            <ArrowDown size={24} />
-          </motion.a>
-        </motion.div>
+            </motion.div>
+          </div>
+        </div>
       </motion.div>
     </section>
   );

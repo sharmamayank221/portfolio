@@ -13,10 +13,10 @@ export default function Navigation({ isScrolled }: NavigationProps) {
   const [activeSection, setActiveSection] = useState('');
 
   const navItems = [
-    { name: 'About', href: '#about' },
     { name: 'Experience', href: '#experience' },
     { name: 'Projects', href: '#projects' },
     { name: 'Skills', href: '#skills' },
+    { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -100,42 +100,139 @@ export default function Navigation({ isScrolled }: NavigationProps) {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-[#ededed] hover:text-[#ffd700] transition-colors"
+          <motion.button
+            className="md:hidden relative p-2 text-[#ededed] hover:text-[#ffd700] transition-colors rounded-lg hover:bg-[#1a1a1a]/50"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            <AnimatePresence mode="wait">
+              {isMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X size={24} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu size={24} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#0a0a0a] border-t border-[#1a1a1a]"
-          >
-            <div className="px-6 py-4 space-y-4">
-              {navItems.map((item) => (
-                <motion.a
-                  key={item.name}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(item.href);
-                  }}
-                  className="block text-base font-medium text-[#ededed] hover:text-[#ffd700] transition-colors"
-                  whileHover={{ x: 4 }}
-                >
-                  {item.name}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                mass: 0.8
+              }}
+              className="md:hidden fixed top-20 left-0 right-0 z-50 bg-[#0a0a0a] border-t border-[#1a1a1a] shadow-2xl"
+            >
+              <div className="px-6 py-8 space-y-2">
+                {navItems.map((item, index) => (
+                  <motion.a
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                    }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ 
+                      delay: index * 0.1,
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }}
+                    className="group relative block px-6 py-4 rounded-xl text-lg font-medium text-[#ededed] hover:text-[#ffd700] transition-all overflow-hidden"
+                    whileHover={{ x: 8, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {/* Animated background */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-[#ffd700]/10 via-[#ffd700]/5 to-transparent opacity-0 group-hover:opacity-100 rounded-xl"
+                      initial={false}
+                      transition={{ duration: 0.3 }}
+                    />
+                    
+                    {/* Border glow effect */}
+                    <motion.div
+                      className="absolute inset-0 border border-[#ffd700]/0 group-hover:border-[#ffd700]/30 rounded-xl"
+                      initial={false}
+                      transition={{ duration: 0.3 }}
+                    />
+                    
+                    {/* Content */}
+                    <div className="relative flex items-center gap-3">
+                      <span className="relative z-10">{item.name}</span>
+                      {activeSection === item.href.substring(1) && (
+                        <motion.span
+                          className="ml-auto text-[#ffd700] text-sm"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                        >
+                          ●
+                        </motion.span>
+                      )}
+                    </div>
+                    
+                    {/* Shine effect on hover */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full rounded-xl"
+                      transition={{ duration: 0.6, ease: "easeInOut" }}
+                    />
+                  </motion.a>
+                ))}
+                
+                {/* Decorative divider */}
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  exit={{ scaleX: 0 }}
+                  transition={{ delay: navItems.length * 0.1, duration: 0.4 }}
+                  className="h-px bg-gradient-to-r from-transparent via-[#ffd700]/30 to-transparent my-6"
+                />
+                
+                {/* Social links or additional info can go here */}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.nav>
