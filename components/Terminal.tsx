@@ -56,7 +56,7 @@ export default function Terminal({ onNavigate }: TerminalProps) {
     if (!trimmedCmd) return;
 
     // Add command to history
-    setHistory(prev => [...prev, { type: 'command', content: `$ ${cmd}` }]);
+    setHistory(prev => [...prev, { type: 'command' as const, content: `$ ${cmd}` }]);
 
     // Find command
     const command = commands.find(c => c.cmd === trimmedCmd);
@@ -69,8 +69,8 @@ export default function Terminal({ onNavigate }: TerminalProps) {
     if (trimmedCmd === 'help') {
       setHistory(prev => [
         ...prev,
-        { type: 'output', content: 'Available commands:' },
-        ...commands.map(c => ({ type: 'output', content: `  ${c.cmd.padEnd(12)} - ${c.description}` })),
+        { type: 'output' as const, content: 'Available commands:' },
+        ...commands.map(c => ({ type: 'output' as const, content: `  ${c.cmd.padEnd(12)} - ${c.description}` })),
       ]);
       return;
     }
@@ -78,7 +78,7 @@ export default function Terminal({ onNavigate }: TerminalProps) {
     if (command) {
       setHistory(prev => [
         ...prev,
-        { type: 'output', content: `Navigating to ${command.action}...` },
+        { type: 'output' as const, content: `Navigating to ${command.action}...` },
       ]);
       setTimeout(() => {
         onNavigate(command.action);
@@ -87,7 +87,7 @@ export default function Terminal({ onNavigate }: TerminalProps) {
     } else {
       setHistory(prev => [
         ...prev,
-        { type: 'error', content: `Command not found: ${cmd}. Type 'help' for available commands.` },
+        { type: 'error' as const, content: `Command not found: ${cmd}. Type 'help' for available commands.` },
       ]);
     }
   };
